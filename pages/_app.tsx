@@ -3,12 +3,13 @@ import { ChakraProvider } from '@chakra-ui/react'
 import theme from '../theme'
 import Layout from '../components/layout'
 import { Global } from '@emotion/react'
+import RecipesProvider from '../contexts/recipes'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <ChakraProvider theme={theme}>
-      <Global
-        styles={`
+	return (
+		<ChakraProvider theme={theme}>
+			<Global
+				styles={`
 				@font-face {
 					font-family: 'DMSans';
 					src: url(/fonts/DMSans-Regular.ttf);
@@ -38,12 +39,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 					font-display: swap;
 				}
 			`}
-      />
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ChakraProvider>
-  )
+			/>
+			<RecipesProvider>
+				<Layout>
+					<Component {...pageProps} />
+				</Layout>
+			</RecipesProvider>
+		</ChakraProvider>
+	)
 }
 
 export default MyApp

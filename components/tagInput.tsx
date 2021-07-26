@@ -1,15 +1,7 @@
-import { Box, Flex, Icon, Input, Stack } from "@chakra-ui/react"
+import { Box, Button, Flex, Icon, Input, InputGroup, InputRightElement, Stack } from "@chakra-ui/react"
 import { FC, useState } from "react"
 import { BsX } from 'react-icons/bs'
-
-const useSearchForRecipes = () => {
-	return (opts) => {
-		fetch('/api/recipes', {
-			method: 'get',
-			body: JSON.stringify(opts),
-		})
-	}
-}
+import { IoIosReturnLeft } from 'react-icons/io'
 
 const Tag: FC<{ name: string, unset: (n: string) => void }> = ({ name, unset }) => {
 	return (
@@ -39,18 +31,38 @@ const Tag: FC<{ name: string, unset: (n: string) => void }> = ({ name, unset }) 
 const TagInput: FC<any> = ({
 	value,
 	setValue,
-	handleKeyDown,
+	setTag,
 	tags,
 	unset,
 }) => {
+
+	const handleKeyDown = (e: any) => {
+		if (e.code === 'Enter') {
+			setTag(value.trim())
+		}
+	}
+
 	return (
 		<>
-			<Input
-				value={value}
-				onChange={e => setValue(e.target.value)}
-				onKeyDown={handleKeyDown}
-				placeholder='Enter ingredient...'
-			/>
+			<InputGroup>
+				<Input
+					value={value}
+					onChange={e => setValue(e.target.value)}
+					onKeyDown={handleKeyDown}
+					placeholder='Enter ingredient...'
+				/>
+				<InputRightElement>
+					<Button
+						variant='brand'
+						disabled={!Boolean(value.trim())}
+						onClick={() => setTag(value.trim())}
+						borderTopLeftRadius='0px'
+						borderBottomLeftRadius='0px'
+					>
+						<Icon as={IoIosReturnLeft} />
+					</Button>
+				</InputRightElement>
+			</InputGroup>
 			{Boolean(tags.length) && (
 				<Flex
 					direction='row'
@@ -61,6 +73,7 @@ const TagInput: FC<any> = ({
 						tags.map((t: string) => (
 							<Tag
 								name={t}
+								key={t}
 								unset={unset}
 							/>
 						))
