@@ -1,5 +1,5 @@
-import { Box, Button, Flex, Icon, Input, InputGroup, InputRightElement, Stack } from "@chakra-ui/react"
-import { FC, useState } from "react"
+import { Button, Flex, Icon, Input, InputGroup, InputRightElement } from "@chakra-ui/react"
+import { FC } from "react"
 import { BsX } from 'react-icons/bs'
 import { IoIosReturnLeft } from 'react-icons/io'
 
@@ -50,6 +50,8 @@ const TagInput: FC<any> = ({
 					onChange={e => setValue(e.target.value)}
 					onKeyDown={handleKeyDown}
 					placeholder='Enter ingredient...'
+					id='ingredient'
+					autoFocus
 				/>
 				<InputRightElement>
 					<Button

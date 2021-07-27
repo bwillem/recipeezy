@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Button, chakra, Image, Stack, Text } from '@chakra-ui/react'
 import { useRecipesContext } from "../contexts/recipes";
 import { Card } from "./card";
@@ -15,10 +15,12 @@ export interface RecipeSearchHit {
 const Hits: FC<any> = props => {
 	const {
 		recipesResponse,
+		tags,
 	} = useRecipesContext()
 
 	const hasResults = Boolean(recipesResponse)
 		&& recipesResponse?.length
+		&& tags?.length
 
 	const isLastHit = (i: number) => hasResults && i === recipesResponse.length - 1
 
@@ -26,6 +28,20 @@ const Hits: FC<any> = props => {
 		<Card w='xl'>
 			{hasResults ? (
 				<Stack spacing={0}>
+					<P px={6} pt={6}>
+						Recipes with {tags.map((tag, i) => (
+							<React.Fragment key={tag}>
+								<chakra.span fontWeight='medium'>
+									{tag}
+								</chakra.span>
+								{i === tags.length - 2
+									? ' and '
+									: i === tags.length - 1
+										? ''
+										: ', '}
+							</React.Fragment>
+						))}
+					</P>
 					{
 						recipesResponse.map((r, i) => (
 							<Stack
@@ -36,7 +52,10 @@ const Hits: FC<any> = props => {
 								borderBottomWidth={isLastHit(i) ? 'none' : '1px'}
 								borderBottomColor={'gray.100'}
 							>
-								<Stack direction='row'>
+								<Stack
+									flex='1 1 100%'
+									direction='row'
+								>
 									<Image
 										src={r.image}
 										width='40px'
@@ -47,18 +66,19 @@ const Hits: FC<any> = props => {
 										<H3>
 											{r.title}
 										</H3>
-										<P>
-											<chakra.span fontWeight='medium'>
-												{r.likes + ' '}
-											</chakra.span>
+										<P color='gray.500'>
+											{/* <chakra.span fontWeight='medium'> */}
+											{r.likes + ' '}
+											{/* </chakra.span> */}
 											likes
 										</P>
 									</Stack>
 								</Stack>
 								<Stack
 									align='center'
+									justifySelf='flex-end'
 									direction='row'
-									flex='1 0 '
+									flex='1 0 200px'
 								>
 									<Link
 										fontSize='sm'
@@ -77,7 +97,10 @@ const Hits: FC<any> = props => {
 					}
 				</Stack>
 			) : (
-				<Text color="gray.500">
+				<Text
+					p={6}
+					color="gray.500"
+				>
 					no results
 				</Text>
 			)}

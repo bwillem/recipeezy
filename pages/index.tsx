@@ -13,7 +13,9 @@ export default function Home() {
       >
         <Stack
           spacing={8}
-        // align='flex-start'
+          align='flex-start'
+          justifyContent='flex-start'
+          w='xl'
         >
           <img
             src='/recipeezy-logo.svg'
@@ -21,16 +23,19 @@ export default function Home() {
             height='31'
           />
           <div>
-            <H3>
-              Try something new tonight!
-            </H3>
-            <H1 textAlign='center'>
+            <H1
+              textAlign='center'
+              fontSize='4xl'
+            >
               What's in your pantry?
               {/* Recipes with the <br /><chakra.span color='brand.default'>ingredients</chakra.span> you have */}
             </H1>
+            <H3>
+              Try something new tonight!
+            </H3>
           </div>
         </Stack>
-        <Stack spacing={4}>
+        <Stack spacing={6}>
           <SearchFeature />
           <Hits />
         </Stack>
