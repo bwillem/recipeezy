@@ -15,7 +15,7 @@ export default function Home() {
           spacing={8}
           align='flex-start'
           justifyContent='flex-start'
-          w='xl'
+          w={['full', 'full', '2xl']}
         >
           <img
             src='/recipeezy-logo.svg'
@@ -30,12 +30,15 @@ export default function Home() {
               What's in your pantry?
               {/* Recipes with the <br /><chakra.span color='brand.default'>ingredients</chakra.span> you have */}
             </H1>
-            <H3>
+            <H3 color='gray.500'>
               Try something new tonight!
             </H3>
           </div>
         </Stack>
-        <Stack spacing={6}>
+        <Stack
+          w={['full', 'full', '2xl']}
+          spacing={6}
+        >
           <SearchFeature />
           <Hits />
         </Stack>

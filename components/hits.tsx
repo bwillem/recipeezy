@@ -1,8 +1,9 @@
 import React, { FC } from "react";
-import { Button, chakra, Image, Stack, Text } from '@chakra-ui/react'
+import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Button, chakra, Flex, Icon, Image, Stack, Text } from '@chakra-ui/react'
 import { useRecipesContext } from "../contexts/recipes";
 import { Card } from "./card";
 import { H3, P, Link } from '../components/typography'
+import { FiChevronDown } from "react-icons/fi";
 
 export interface RecipeSearchHit {
 	id: string,
@@ -10,6 +11,121 @@ export interface RecipeSearchHit {
 	image: string,
 	likes: number,
 	missedIngredientCount: number,
+	missedIngredients: any,
+	usedIngredients: any,
+}
+
+const Hit: FC<{ isLastHit: boolean, hit: RecipeSearchHit }> = ({ isLastHit, hit }) => {
+
+	const {
+		image,
+		title,
+		missedIngredients,
+		usedIngredients,
+		likes,
+	} = hit
+
+	return (
+		<AccordionItem
+			borderColor='gray.100'
+			borderBottomWidth={isLastHit ? 'none' : '1px'}
+			borderTopWidth='0px'
+		>
+			<AccordionButton
+				p={6}
+				_hover={{
+					bg: 'gray.100',
+				}}
+			>
+				<Stack
+					direction='row'
+					justifyContent='space-between'
+					align='center'
+					width='100%'
+				>
+					<Stack
+						direction='row'
+						align='center'
+						flex='1 1 100%'
+					>
+						<Image
+							src={image}
+							width='40px'
+							height='40px'
+							borderRadius='40px'
+						/>
+						<Stack
+							spacing={0}
+							align='flex-start'
+						>
+							<H3>
+								{title}
+							</H3>
+							<P color='gray.500'>
+								{likes + ' '}
+								likes
+							</P>
+						</Stack>
+					</Stack>
+					<Icon as={FiChevronDown} />
+				</Stack>
+			</AccordionButton>
+			<AccordionPanel
+				bg='gray.50'
+				w='100%'
+				p={6}
+			>
+				<Stack direction='row' spacing={6}>
+					<Stack>
+						<P
+							fontWeight='medium'
+							color='gray.500'
+						>
+							You have
+						</P>
+						{usedIngredients.map((i: any) => (
+							<P>
+								{i.name}
+							</P>
+						))}
+					</Stack>
+					<Stack>
+						<P
+							fontWeight='medium'
+							color='gray.500'
+						>
+							You need
+						</P>
+						{missedIngredients.map((i: any) => (
+							<P>
+								{i.name}
+							</P>
+						))}
+					</Stack>
+				</Stack>
+				<Stack
+					align='center'
+					justifyContent='flex-end'
+					direction='row'
+					flex='1 0 100%'
+					spacing={6}
+					mt={4}
+				>
+					<Link
+						fontSize='sm'
+					>
+						Shopping list
+					</Link>
+					<Button
+						variant='brand'
+						size='sm'
+					>
+						View recipe
+					</Button>
+				</Stack>
+			</AccordionPanel>
+		</AccordionItem>
+	)
 }
 
 const Hits: FC<any> = props => {
@@ -22,79 +138,43 @@ const Hits: FC<any> = props => {
 		&& recipesResponse?.length
 		&& tags?.length
 
-	const isLastHit = (i: number) => hasResults && i === recipesResponse.length - 1
+	const isLastHit = (i: number) => Boolean(hasResults && i === recipesResponse.length - 1)
 
 	return (
-		<Card w='xl'>
+		<Card w='100%'>
 			{hasResults ? (
 				<Stack spacing={0}>
-					<P px={6} pt={6}>
-						Recipes with {tags.map((tag, i) => (
-							<React.Fragment key={tag}>
-								<chakra.span fontWeight='medium'>
-									{tag}
-								</chakra.span>
-								{i === tags.length - 2
-									? ' and '
-									: i === tags.length - 1
-										? ''
-										: ', '}
-							</React.Fragment>
-						))}
-					</P>
-					{
-						recipesResponse.map((r, i) => (
-							<Stack
-								p={6}
-								align='center'
-								direction='row'
-								justify='space-between'
-								borderBottomWidth={isLastHit(i) ? 'none' : '1px'}
-								borderBottomColor={'gray.100'}
-							>
-								<Stack
-									flex='1 1 100%'
-									direction='row'
-								>
-									<Image
-										src={r.image}
-										width='40px'
-										height='40px'
-										borderRadius='40px'
-									/>
-									<Stack spacing={0}>
-										<H3>
-											{r.title}
-										</H3>
-										<P color='gray.500'>
-											{/* <chakra.span fontWeight='medium'> */}
-											{r.likes + ' '}
-											{/* </chakra.span> */}
-											likes
-										</P>
-									</Stack>
-								</Stack>
-								<Stack
-									align='center'
-									justifySelf='flex-end'
-									direction='row'
-									flex='1 0 200px'
-								>
-									<Link
-										fontSize='sm'
+					<Accordion>
+						<P
+							px={6}
+							pt={6}
+							color='gray.500'
+						>
+							Recipes with {tags.map((tag, i) => (
+								<React.Fragment key={tag}>
+									<chakra.span
+										fontWeight='medium'
+										color='gray.800'
 									>
-										Shopping list
-									</Link>
-									<Button
-										variant='brand'
-										size='sm'
-									>
-										View recipe
-									</Button>
-								</Stack>
-							</Stack>
-						))
-					}
+										{tag}
+									</chakra.span>
+									{i === tags.length - 2
+										? ' and '
+										: i === tags.length - 1
+											? ''
+											: ', '}
+								</React.Fragment>
+							))}
+						</P>
+						{
+							recipesResponse.map((hit, i) => (
+								<Hit
+									isLastHit={isLastHit(i)}
+									hit={hit}
+								/>
+							))
+						}
+					</Accordion>
 				</Stack>
 			) : (
 				<Text

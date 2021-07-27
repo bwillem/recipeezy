@@ -1,4 +1,4 @@
-import { Button, chakra, Stack } from '@chakra-ui/react'
+import { Button, Stack } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { Card, CardBody, CardFooter } from '../components/card'
@@ -6,7 +6,7 @@ import TagInput from '../components/tagInput'
 import { H3 } from '../components/typography'
 import { useRecipesContext } from '../contexts/recipes'
 
-const SearchFeature = props => {
+const SearchFeature = () => {
 	const [value, setValue] = useState<string>('')
 
 	const {
@@ -20,7 +20,7 @@ const SearchFeature = props => {
 		if (tags.length) {
 			getRecipes()
 		}
-	}, [tags])
+	}, [tags.length])
 
 	const setTag = () => {
 		setTags(prevState => [...prevState, value.trim()])
@@ -32,9 +32,15 @@ const SearchFeature = props => {
 	}
 
 	return (
-		<Card w='xl'>
-			<CardBody as={Stack} spacing={6}>
-				<H3 as='label' htmlFor='ingredient'>Enter ingredients one by one</H3>
+		<Card w='full'>
+			<CardBody as={Stack} spacing={6} >
+				<H3
+					as='label'
+					// @ts-ignore
+					htmlFor='ingredient'
+				>
+					Enter ingredients one by one
+				</H3>
 				<TagInput
 					unset={unset}
 					value={value}
@@ -53,7 +59,7 @@ const SearchFeature = props => {
 					Find recipes
 				</Button>
 			</CardFooter>
-		</Card>
+		</Card >
 	)
 }
 

@@ -33,7 +33,6 @@ const RecipesProvider: FC<{}> = props => {
 		try {
 			const r = await fetch(`/api/recipes?ingredients=${tags.join(',')}`)
 			const response = await r.json()
-			console.log(response)
 			setRecipesResponse(response)
 		} catch (e) {
 
