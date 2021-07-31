@@ -3,8 +3,7 @@ import NextLink from 'next/link'
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Button, chakra, Icon, Image, Stack, Text } from '@chakra-ui/react'
 import { useRecipesContext } from "../contexts/recipes";
 import { Card } from "./card";
-import { H3, P, Link } from '../components/typography'
-import { FiChevronDown } from "react-icons/fi";
+import { H3, P } from '../components/typography'
 import { routes } from "../util/router";
 
 export interface RecipeSearchHit {
@@ -36,6 +35,9 @@ const Hit: FC<{ isLastHit: boolean, hit: RecipeSearchHit }> = ({ isLastHit, hit 
 		>
 			<AccordionButton
 				p={6}
+				_expanded={{
+					bg: 'gray.50'
+				}}
 			>
 				<Stack
 					direction='row'
