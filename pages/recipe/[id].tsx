@@ -94,6 +94,7 @@ function RecipePage() {
 			</Stack>
 			<Stack direction='row'>
 				<Box
+					display={['none', 'none', 'block']}
 					position='relative'
 					flex='1 1 25%'
 					ref={navRef}
