@@ -1,24 +1,28 @@
 import { Heading, Stack } from "@chakra-ui/react";
+import Link from "next/link";
 import { FC } from "react";
 
 const Wordmark: FC = () => {
 	return (
-		<Stack
-			direction='row'
-			align='center'
-		>
-			<img
-				src='/recipeezy-logo.svg'
-				width='27'
-				height='28'
-			/>
-			<Heading
-				as='h2'
-				fontSize='md'
+		<Link passHref href='/'>
+			<Stack
+				direction='row'
+				align='center'
+				cursor='pointer'
 			>
-				Recipeezy
-			</Heading>
-		</Stack>
+				<img
+					src='/recipeezy-logo.svg'
+					width='27'
+					height='28'
+				/>
+				<Heading
+					as='h2'
+					fontSize='md'
+				>
+					Recipeezy
+				</Heading>
+			</Stack>
+		</Link>
 	)
 }
 

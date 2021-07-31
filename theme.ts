@@ -17,6 +17,7 @@ export default extendTheme({
 	},
 	shadows: {
 		lg: `0px 1px 3px 0px rgb(60 64 67 / 30%), 0px 4px 8px 3px rgb(60 64 67 / 15%)`,
+		focus: `0px 0px 0px 1px rgba(0,0,0,0.2)`,
 	},
 	layerStyles: {
 		cardPadding: {
@@ -34,6 +35,9 @@ export default extendTheme({
 					_hover: {
 						bg: '#ffe9e8',
 					},
+					_focus: {
+						boxShadow: 'focus',
+					},
 				},
 			},
 		},
@@ -48,6 +52,18 @@ export default extendTheme({
 							borderColor: 'brand.default',
 							boxShadow: 'none',
 						},
+					},
+				},
+			},
+		},
+		Accordion: {
+			baseStyle: {
+				button: {
+					_focus: {
+						boxShadow: 'focus',
+					},
+					_hover: {
+						bg: 'gray.50',
 					},
 				},
 			},

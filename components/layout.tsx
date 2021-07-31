@@ -6,6 +6,8 @@ function Layout({ children }: any) {
 	return (
 		<Box
 			bg='url("/background.svg")'
+			bgRepeat='no-repeat'
+			minH='100vh'
 		>
 			<AppContainer>
 				<Stack

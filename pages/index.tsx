@@ -13,7 +13,7 @@ export default function Home() {
       >
         <Stack
           spacing={8}
-          align='flex-start'
+          align='center'
           justifyContent='flex-start'
           w={['full', 'full', '2xl']}
         >
@@ -30,7 +30,10 @@ export default function Home() {
               What's in your pantry?
               {/* Recipes with the <br /><chakra.span color='brand.default'>ingredients</chakra.span> you have */}
             </H1>
-            <H3 color='gray.500'>
+            <H3
+              textAlign='center'
+              color='gray.500'
+            >
               Try something new tonight!
             </H3>
           </div>

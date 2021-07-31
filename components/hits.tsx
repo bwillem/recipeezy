@@ -1,9 +1,11 @@
 import React, { FC } from "react";
-import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Button, chakra, Flex, Icon, Image, Stack, Text } from '@chakra-ui/react'
+import NextLink from 'next/link'
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Button, chakra, Icon, Image, Stack, Text } from '@chakra-ui/react'
 import { useRecipesContext } from "../contexts/recipes";
 import { Card } from "./card";
 import { H3, P, Link } from '../components/typography'
 import { FiChevronDown } from "react-icons/fi";
+import { routes } from "../util/router";
 
 export interface RecipeSearchHit {
 	id: string,
@@ -23,6 +25,7 @@ const Hit: FC<{ isLastHit: boolean, hit: RecipeSearchHit }> = ({ isLastHit, hit 
 		missedIngredients,
 		usedIngredients,
 		likes,
+		id,
 	} = hit
 
 	return (
@@ -33,9 +36,6 @@ const Hit: FC<{ isLastHit: boolean, hit: RecipeSearchHit }> = ({ isLastHit, hit 
 		>
 			<AccordionButton
 				p={6}
-				_hover={{
-					bg: 'gray.100',
-				}}
 			>
 				<Stack
 					direction='row'
@@ -57,6 +57,7 @@ const Hit: FC<{ isLastHit: boolean, hit: RecipeSearchHit }> = ({ isLastHit, hit 
 						<Stack
 							spacing={0}
 							align='flex-start'
+							textAlign='left'
 						>
 							<H3>
 								{title}
@@ -67,7 +68,7 @@ const Hit: FC<{ isLastHit: boolean, hit: RecipeSearchHit }> = ({ isLastHit, hit 
 							</P>
 						</Stack>
 					</Stack>
-					<Icon as={FiChevronDown} />
+					<AccordionIcon color='gray.500' />
 				</Stack>
 			</AccordionButton>
 			<AccordionPanel
@@ -111,17 +112,19 @@ const Hit: FC<{ isLastHit: boolean, hit: RecipeSearchHit }> = ({ isLastHit, hit 
 					spacing={6}
 					mt={4}
 				>
-					<Link
+					{/* <Link
 						fontSize='sm'
 					>
 						Shopping list
-					</Link>
-					<Button
-						variant='brand'
-						size='sm'
-					>
-						View recipe
-					</Button>
+					</Link> */}
+					<NextLink passHref href={routes.recipe(id)}>
+						<Button
+							variant='brand'
+							size='sm'
+						>
+							View recipe
+						</Button>
+					</NextLink>
 				</Stack>
 			</AccordionPanel>
 		</AccordionItem>
@@ -144,7 +147,7 @@ const Hits: FC<any> = props => {
 		<Card w='100%'>
 			{hasResults ? (
 				<Stack spacing={0}>
-					<Accordion>
+					<Accordion allowToggle>
 						<P
 							px={6}
 							pt={6}
