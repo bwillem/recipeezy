@@ -48,6 +48,7 @@ function RecipeDetails({ recipe, setActiveNavIndex }: { recipe: Recipe, setActiv
 				height='100px'
 			/>
 			<Card
+				// @ts-ignore
 				ref={overviewRef}
 			>
 				<CardBody
@@ -132,6 +133,7 @@ function RecipeDetails({ recipe, setActiveNavIndex }: { recipe: Recipe, setActiv
 				height='100px'
 			/>
 			<Card
+				// @ts-ignore
 				ref={ingredsRef}
 			>
 				<CardBody
@@ -162,6 +164,7 @@ function RecipeDetails({ recipe, setActiveNavIndex }: { recipe: Recipe, setActiv
 				height='100px'
 			/>
 			<Card
+				// @ts-ignore ?????
 				ref={prepRef}
 			>
 				<CardBody
