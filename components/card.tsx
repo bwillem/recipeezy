@@ -1,7 +1,7 @@
 import { Box, BoxProps, Stack, useColorModeValue } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, forwardRef } from "react";
 
-const Card: FC<BoxProps> = props => {
+const Card: FC<BoxProps> = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
 	const bg = useColorModeValue('white', 'gray.600')
 
 	return (
@@ -10,10 +10,11 @@ const Card: FC<BoxProps> = props => {
 			borderRadius='lg'
 			boxShadow='lg'
 			bg={bg}
+			ref={ref}
 			{...props}
 		/>
 	)
-}
+})
 
 const CardFooter: FC<BoxProps> = props => {
 	return (

@@ -1,7 +1,7 @@
-import { Button, Stack } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { Card, CardBody, CardFooter } from '../components/card'
+import { Card, CardBody } from '../components/card'
 import TagInput from '../components/tagInput'
 import { H3 } from '../components/typography'
 import { useRecipesContext } from '../contexts/recipes'
@@ -47,9 +47,10 @@ const SearchFeature = () => {
 					setValue={setValue}
 					tags={tags}
 					setTag={setTag}
+					isLoading={isLoading}
 				/>
 			</CardBody>
-			<CardFooter>
+			{/* <CardFooter>
 				<Button
 					variant='brand'
 					onClick={getRecipes}
@@ -58,7 +59,7 @@ const SearchFeature = () => {
 				>
 					Find recipes
 				</Button>
-			</CardFooter>
+			</CardFooter> */}
 		</Card >
 	)
 }

@@ -4,7 +4,7 @@ function AppContainer(props: BoxProps) {
 	return (
 		<Box
 			maxW='1000px'
-			px={[8, 8, 4]}
+			px={[4, 4, 4]}
 			mx='auto'
 			{...props}
 		/>

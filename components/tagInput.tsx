@@ -31,6 +31,7 @@ const Tag: FC<{ name: string, unset: (n: string) => void }> = ({ name, unset }) 
 const TagInput: FC<any> = ({
 	value,
 	setValue,
+	isLoading,
 	setTag,
 	tags,
 	unset,
@@ -60,6 +61,7 @@ const TagInput: FC<any> = ({
 						onClick={() => setTag(value.trim())}
 						borderTopLeftRadius='0px'
 						borderBottomLeftRadius='0px'
+						isLoading={isLoading}
 					>
 						<Icon as={IoIosReturnLeft} />
 					</Button>

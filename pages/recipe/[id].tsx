@@ -6,11 +6,12 @@ import { FiArrowLeft } from "react-icons/fi"
 import useSWR from "swr"
 import RecipeDetails from "../../components/recipeDetails"
 import { H1, H3, P, Link } from '../../components/typography'
-import useIntersectionObserver from "../../hooks/useIntersectionObserver"
+import useDetectIntersection from "../../hooks/useDetectIntersection"
 
-function QuickLink({ isActive, ...rest }: TextProps & { isActive: boolean }) {
+function QuickLink({ isActive, ...rest }: TextProps & { href: string, isActive: boolean }) {
 	return (
 		<Text
+			as='a'
 			color={isActive ? 'gray.800' : 'gray.300'}
 			cursor='pointer'
 			transition='.3s all'
@@ -27,24 +28,16 @@ function QuickLink({ isActive, ...rest }: TextProps & { isActive: boolean }) {
 function RecipePage() {
 	const { query } = useRouter()
 	const [shouldFixNav, setShouldFixNav] = useState(false)
+	const [activeNavIndex, setActiveNavIndex] = useState(0)
 	const { data, error } = useSWR(query?.id ? `/api/recipe/${query.id}` : null)
 	const router = useRouter()
 	const navRef = useRef<HTMLDivElement>(null)
 
-	const { entry, setTarget } = useIntersectionObserver({ root: null, rootMargin: '-232px 0px 0px 0px', threshhold: [0, 1] })
+	const navIsIntersecting = useDetectIntersection({ ref: navRef, opts: { root: null, rootMargin: '-232px 0px 0px 0px', threshhold: [0, 1] } })
 
 	useEffect(() => {
-		if (navRef.current) {
-			setTarget(navRef.current)
-		}
-	}, [navRef.current])
-
-	useEffect(() => {
-		setShouldFixNav(!Boolean(entry?.isIntersecting))
-		// if (entry?.isIntersecting) {}
-	}, [entry])
-
-	console.log(data)
+		setShouldFixNav(!Boolean(navIsIntersecting))
+	}, [navIsIntersecting])
 
 	if (error) {
 		return (
@@ -106,17 +99,26 @@ function RecipePage() {
 							top={shouldFixNav ? '64px' : 0}
 							spacing={6}
 						>
-							<QuickLink isActive={true}>
+							<QuickLink
+								isActive={activeNavIndex === 0}
+								onClick={() => setActiveNavIndex(0)}
+								href='#overview'
+							>
 								Overview
 							</QuickLink>
-							<QuickLink isActive={false}>
+							<QuickLink
+								isActive={activeNavIndex === 1}
+								onClick={() => setActiveNavIndex(1)}
+								href='#ingredients'
+							>
 								Ingredients
 							</QuickLink>
-							<QuickLink isActive={false}>
+							<QuickLink
+								isActive={activeNavIndex === 2}
+								onClick={() => setActiveNavIndex(2)}
+								href='#preparation'
+							>
 								Preparation
-							</QuickLink>
-							<QuickLink isActive={false}>
-								Blurb
 							</QuickLink>
 						</Stack>
 					</Skeleton>
@@ -127,7 +129,10 @@ function RecipePage() {
 					pb={32}
 					maxW='xl'
 				>
-					<RecipeDetails recipe={data} />
+					<RecipeDetails
+						recipe={data}
+						setActiveNavIndex={setActiveNavIndex}
+					/>
 				</Stack>
 			</Stack>
 		</>

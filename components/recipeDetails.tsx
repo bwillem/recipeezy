@@ -1,4 +1,7 @@
-import { Flex, Skeleton, Stack } from "@chakra-ui/react"
+import { chakra, Flex, Skeleton, Stack } from "@chakra-ui/react"
+import { useEffect } from "react"
+import { Dispatch, SetStateAction, useRef } from "react"
+import useDetectIntersection from "../hooks/useDetectIntersection"
 import { Recipe } from "../pages/api/recipe/[id]"
 import { Card, CardBody } from "./card"
 import ChakraNextImage from "./nextImage"
@@ -6,7 +9,25 @@ import { H3, P } from "./typography"
 
 const yesOrNo = (b: Boolean) => b ? 'Yes' : 'No'
 
-function RecipeDetails({ recipe }: { recipe: Recipe }) {
+function RecipeDetails({ recipe, setActiveNavIndex }: { recipe: Recipe, setActiveNavIndex: Dispatch<SetStateAction<number>> }) {
+	const overviewRef = useRef<HTMLDivElement>(null)
+	const ingredsRef = useRef<HTMLDivElement>(null)
+	const prepRef = useRef<HTMLDivElement>(null)
+	const overviewIsIntersecting = useDetectIntersection({ ref: overviewRef, opts: { root: null, rootMargin: '0px 0px -50% 0px', threshhold: [0, 1] } })
+	const ingredsIsIntersecting = useDetectIntersection({ ref: ingredsRef, opts: { root: null, rootMargin: '0px 0px -50% 0px', threshhold: [0, 1] } })
+	const prepIsIntersecting = useDetectIntersection({ ref: prepRef, opts: { root: null, rootMargin: '0px 0px -50% 0px', threshhold: [0, 1] } })
+
+	useEffect(() => {
+		let index = 0
+		if (ingredsIsIntersecting) {
+			index = 1
+		}
+		if (prepIsIntersecting) {
+			index = 2
+		}
+		setActiveNavIndex(index)
+	}, [overviewIsIntersecting, ingredsIsIntersecting, prepIsIntersecting])
+
 	if (!recipe) return (
 		<Skeleton borderRadius='lg' height='420px' />
 	)
@@ -19,14 +40,22 @@ function RecipeDetails({ recipe }: { recipe: Recipe }) {
 				borderRadius='lg'
 				overflow='hidden'
 				w='100%'
-				h='328px'
+				h='382px'
 			/>
-			<Card>
+			<chakra.span
+				id='overview'
+				mt='-100px !important'
+				height='100px'
+			/>
+			<Card
+				ref={overviewRef}
+			>
 				<CardBody
 					as={Stack}
 					spacing={6}
 				>
-					<H3>
+					<H3
+					>
 						Overview
 					</H3>
 					<Stack
@@ -97,7 +126,14 @@ function RecipeDetails({ recipe }: { recipe: Recipe }) {
 					</Stack>
 				</CardBody>
 			</Card>
-			<Card>
+			<chakra.span
+				id='ingredients'
+				mt='-100px !important'
+				height='100px'
+			/>
+			<Card
+				ref={ingredsRef}
+			>
 				<CardBody
 					as={Stack}
 					spacing={6}
@@ -120,7 +156,14 @@ function RecipeDetails({ recipe }: { recipe: Recipe }) {
 					))}
 				</CardBody>
 			</Card>
-			<Card>
+			<chakra.span
+				id='preparation'
+				mt='-100px !important'
+				height='100px'
+			/>
+			<Card
+				ref={prepRef}
+			>
 				<CardBody
 					as={Stack}
 					spacing={6}
